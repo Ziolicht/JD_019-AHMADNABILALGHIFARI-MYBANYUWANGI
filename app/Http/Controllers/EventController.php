@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -54,6 +55,8 @@ class EventController extends Controller
             }
         }
 
+        $events = $query->orderBy('starts_at')->get();
+
         // Ambil data event
         $events = $query->paginate(9);
 
@@ -88,6 +91,12 @@ class EventController extends Controller
                 $query->where('ends_at', '<', now());
             }
         }
+
+        if ($request->has('date')) {
+            $date = Carbon::parse($request->date);
+            $query->whereDate('starts_at', $date);
+        }
+
 
         // Sorting
         if ($request->filled('sort')) {
@@ -215,5 +224,20 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('events.index')->with('success', 'Event dihapus.');
+    }
+
+    public function calendar()
+    {
+        $now = \Carbon\Carbon::now();
+        $startOfMonth = $now->copy()->startOfMonth()->startOfWeek();
+        $endOfMonth = $now->copy()->endOfMonth()->endOfWeek();
+
+        $dates = collect();
+        for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
+            $dates->push($date->copy());
+        }
+
+        $events = Event::all(); // Atau filter berdasarkan bulan
+        return view('events.calendar', compact('dates', 'events'));
     }
 }

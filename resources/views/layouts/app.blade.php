@@ -13,6 +13,8 @@
             scroll-behavior: smooth;
         }
     </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
@@ -96,7 +98,11 @@
         </div>
     </footer>
 
+
+
     <script>
+        lucide.createIcons();
+
         (function() {
             const wrappers = () => document.querySelectorAll('[data-user-menu]');
             const panels = () => document.querySelectorAll('[data-user-panel]');
@@ -176,6 +182,27 @@
 
         setupMobileMenu('mainMobileMenuButton', 'mainMobileMenu');
         setupMobileMenu('glassMobileMenuButton', 'glassMobileMenu');
+
+
+
+
+        // alert
+        document.getElementById('delete-btn').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Event ini akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form').submit();
+                }
+            });
+        });
     </script>
 </body>
 

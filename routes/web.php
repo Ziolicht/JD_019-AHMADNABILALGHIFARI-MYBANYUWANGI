@@ -17,10 +17,14 @@ Route::get('/', [EventController::class, 'index'])->name('home');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 // Lihat semua event
 Route::get('/events/all', [EventController::class, 'list'])->name('events.list');
+// kalender event
+Route::get('/events/calendar', [EventController::class, 'calendar'])->name('events.calendar');
 // Detail event
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 // Halaman tentang
 Route::view('/about', 'layouts.about')->name('about');
+
+
 
 /*
 |--------------------------------------------------------------------------

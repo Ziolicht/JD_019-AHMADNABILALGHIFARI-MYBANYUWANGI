@@ -80,7 +80,7 @@
     <section class="mt-12">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Event Populer</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Event Terbaru</h2>
                 <p class="text-gray-500 text-sm">Minggu ini di Banyuwangi</p>
             </div>
             <div class="hidden md:flex gap-2">
@@ -118,9 +118,7 @@
                         <p class="text-sm text-gray-500 line-clamp-2">
                             {{ \Illuminate\Support\Str::limit($ev->location, 60) }}
                         </p>
-                        <div class="mt-3 inline-flex items-center text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                            <i class="fa-solid fa-star text-[10px] mr-1"></i> 4.7
-                        </div>
+
                     </div>
                 </a>
             @empty
@@ -139,7 +137,7 @@
     </section>
 
     {{-- STEP / CTA --}}
-    <section class="mt-16 text-center w-full" >
+    <section class="mt-16 text-center w-full">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Jelajah Event Jadi Simpel!</h2>
         <p class="text-gray-500 text-sm mt-1">Cari, pilih, dan datang — semua informasi ada di MyBanyuwangi.</p>
         <div class="mt-8 grid md:grid-cols-3 gap-6">
@@ -194,14 +192,26 @@
     </section>
 
     {{-- DAFTAR EVENT (anchor id events) --}}
-    <section id="events" class="mt-20">
+    <div class="opacity-0 mt-5" id="events">test</div>
+    <section class="mt-20">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Daftar Event</h2>
-            <a href="{{ route('events.list') }}" class="text-indigo-600 hover:underline">Lihat Semua Event</a>
+            <a href="{{ route('events.list') }}"
+                class="inline-flex items-center justify-center rounded-full px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow">Lihat
+                Semua Event<i class="fa-solid fa-arrow-right-long ml-2"></i></a>
 
         </div>
 
         {{-- Filter utama --}}
+        @if (request('date'))
+            <div class="mb-4 text-center">
+                <h2 class="text-lg font-semibold text-indigo-600">
+                    Event pada {{ \Carbon\Carbon::parse(request('date'))->translatedFormat('d F Y') }}
+                </h2>
+                <a href="{{ route('events.list') }}" class="text-sm text-gray-500 hover:underline">Lihat Semua Event</a>
+            </div>
+        @endif
+
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <form id="filterForm" method="GET" action="{{ route('events.list') }}"
                 class="grid sm:grid-cols-[1fr,200px,200px,auto] gap-3 w-full md:w-auto">
@@ -240,7 +250,6 @@
                         class="px-3 py-2 text-sm {{ request('status') == 'aktif' ? 'bg-indigo-600 text-white' : 'bg-white' }}">Aktif</a>
                     <a href="{{ route('events.index', ['status' => 'selesai']) }}#events"
                         class="px-3 py-2 text-sm {{ request('status') == 'selesai' ? 'bg-indigo-600 text-white' : 'bg-white' }}">Selesai</a>
-
                 </div>
             </div>
 
@@ -256,42 +265,64 @@
                         : '';
                 @endphp
 
-                <a href="{{ route('events.show', $event) }}"
-                    class="group event-card bg-white rounded-2xl overflow-hidden border hover:shadow-lg transition relative"
-                    data-ends-at="{{ $endsAtIso }}">
-                    {{-- label selesai (server-side) --}}
-                    <div class="absolute top-3 right-3">
-                        @if ($event->ends_at < now())
-                            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">Event Selesai</span>
-                        @else
-                            <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Sedang Berjalan</span>
-                        @endif
-                    </div>
+                <div class="bg-white rounded-2xl shadow hover:shadow-xl transition overflow-hidden">
+                    <!-- Gambar -->
+                    <a href="{{ route('events.show', $event) }}" class="relative group">
+                        <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}"
+                            class="w-full h-48 object-cover transform group-hover:scale-105 transition duration-300">
 
-                    <div class="h-44 bg-gray-200">
-                        @if ($event->image_path)
-                            <img src="{{ asset('storage/' . $event->image_path) }}"
-                                class="w-full h-full object-cover group-hover:scale-[1.02] transition" alt="">
-                        @endif
-                    </div>
-
-                    <div class="p-5">
-                        <div class="flex items-center justify-between text-xs text-gray-500">
-                            <span class="inline-flex items-center gap-1">
-                                <i class="fa-regular fa-calendar"></i>
-                                {{ \Illuminate\Support\Carbon::parse($event->starts_at)->format('d M Y') }}
-                            </span>
-                            <span class="inline-flex items-center gap-1">
-                                <i
-                                    class="fa-solid fa-location-dot"></i>{{ \Illuminate\Support\Str::limit($event->location, 22) }}
-                            </span>
+                        <!-- Overlay tanggal -->
+                        <div class="absolute top-3 left-3 bg-white rounded-lg shadow p-2 text-center">
+                            <p class="text-xl font-bold text-indigo-600">
+                                {{ \Carbon\Carbon::parse($event->starts_at)->format('d') }}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                {{ \Carbon\Carbon::parse($event->starts_at)->format('M, Y') }}
+                            </p>
                         </div>
 
-                        <h3 class="mt-2 font-semibold text-gray-900 line-clamp-2">{{ $event->title }}</h3>
-                        <p class="text-sm text-gray-500 line-clamp-2 mt-1">
-                            {{ \Illuminate\Support\Str::limit($event->description, 80) }}</p>
+                        <!-- Badge status -->
+                        <div class="absolute top-3 right-3">
+                            @if ($event->ends_at < now())
+                                <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">Event Selesai</span>
+                            @else
+                                <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Sedang
+                                    Berjalan</span>
+                            @endif
+                        </div>
+                    </a>
+
+                    {{-- CARD CONTENT --}}
+
+                    <div class="p-4 flex gap-y-3 flex-col">
+                        {{-- kategori --}}
+                        <div class="flex justify-between items-center mb-2">
+                            <a href="{{ route('events.list', ['category' => $event->category]) }}"
+                                class="text-xs text-purple-600 font-semibold hover:underline flex items-center gap-1">
+                                <i data-lucide="tag" class="w-4 h-4 text-purple-500"></i>
+                                {{ $event->category ?? 'Umum' }}
+                            </a>
+
+                            @if ($event->location)
+                                <a href="https://maps.google.com?q={{ urlencode($event->location) }}" target="_blank"
+                                    class="text-xs text-indigo-500 flex items-center gap-1 hover:underline">
+                                    <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                    {{ Str::limit($event->location, 20, '...') }}
+                                </a>
+                            @endif
+                        </div>
+
+                        <!-- Judul -->
+                        <a href="{{ route('events.show', $event) }}">
+                            <h3 class="text-lg font-bold mb-1 hover:underline">{{ Str::limit($event->title, 23, '...') }}
+                            </h3>
+                        </a>
+
+                        <!-- Deskripsi (hanya 1 baris) -->
+                        <p class="text-sm text-gray-600 mb-3 truncate">{{ $event->description }}</p>
                     </div>
-                </a>
+
+                </div>
             @empty
                 <div class="col-span-full rounded-2xl border bg-white p-10 text-center text-gray-500">
                     Belum ada event. Tambahkan dari menu Admin.
@@ -311,7 +342,7 @@
             <div class="px-6 md:px-10 py-8 md:py-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <h3 class="text-2xl md:text-3xl font-extrabold text-gray-900">Siap jalan? <span
                         class="text-indigo-600">Temukan Event Seru</span> sekarang.</h3>
-                <a href="{{ route('events.list') }}"
+                <a href="{{ route('events.calendar') }}"
                     class="rounded-full px-6 py-3 bg-indigo-600 text-white font-semibold hover:bg-indigo-700 inline-flex items-center">
                     Buka Kalender Event <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
