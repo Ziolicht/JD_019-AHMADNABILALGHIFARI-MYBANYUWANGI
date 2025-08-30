@@ -145,18 +145,24 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title'             => ['required', 'string', 'max:255'],
-            'slug'              => ['nullable', 'string', 'max:255', 'unique:events,slug'],
-            'description'       => ['nullable', 'string'],
-            'category'          => ['nullable', 'string', 'max:100'],
-            'location'          => ['nullable', 'string', 'max:255'],
-            'starts_at'         => ['required', 'date'],
-            'ends_at'           => ['nullable', 'date', 'after_or_equal:starts_at'],
-            'contact_whatsapp'  => ['nullable', 'string', 'max:30'],
-            'image'             => ['nullable', 'image', 'max:2048'],
-            'is_published'      => ['nullable', 'boolean'],
-        ]);
+        $data = $request->validate(
+            [
+                'title'             => ['required', 'string', 'max:255'],
+                'slug'              => ['nullable', 'string', 'max:255', 'unique:events,slug'],
+                'description'       => ['nullable', 'string'],
+                'category'          => ['nullable', 'string', 'max:100'],
+                'location'          => ['nullable', 'string', 'max:255'],
+                'starts_at'         => ['required', 'date'],
+                'ends_at'           => ['nullable', 'date', 'after_or_equal:starts_at'],
+                'contact_whatsapp'  => ['nullable', 'string', 'max:30'],
+                'image'             => ['nullable', 'image', 'max:2048'],
+                'is_published'      => ['nullable', 'boolean'],
+            ],
+            [
+                'ends_at.after_or_equal' => 'Tanggal selesai harus setelah atau sama dengan tanggal mulai.',
+            ]
+        );
+
 
         // Upload gambar jika ada
         if ($request->hasFile('image')) {
@@ -184,18 +190,23 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $data = $request->validate([
-            'title'             => ['required', 'string', 'max:255'],
-            'slug'              => ['nullable', 'string', 'max:255', Rule::unique('events', 'slug')->ignore($event->id)],
-            'description'       => ['nullable', 'string'],
-            'category'          => ['nullable', 'string', 'max:100'],
-            'location'          => ['nullable', 'string', 'max:255'],
-            'starts_at'         => ['required', 'date'],
-            'ends_at'           => ['nullable', 'date', 'after_or_equal:starts_at'],
-            'contact_whatsapp'  => ['nullable', 'string', 'max:30'],
-            'image'             => ['nullable', 'image', 'max:2048'],
-            'is_published'      => ['nullable', 'boolean'],
-        ]);
+        $data = $request->validate(
+            [
+                'title'             => ['required', 'string', 'max:255'],
+                'slug'              => ['nullable', 'string', 'max:255', Rule::unique('events', 'slug')->ignore($event->id)],
+                'description'       => ['nullable', 'string'],
+                'category'          => ['nullable', 'string', 'max:100'],
+                'location'          => ['nullable', 'string', 'max:255'],
+                'starts_at'         => ['required', 'date'],
+                'ends_at'           => ['nullable', 'date', 'after_or_equal:starts_at'],
+                'contact_whatsapp'  => ['nullable', 'string', 'max:30'],
+                'image'             => ['nullable', 'image', 'max:2048'],
+                'is_published'      => ['nullable', 'boolean'],
+            ],
+            [
+                'ends_at.after_or_equal' => 'Tanggal selesai harus setelah atau sama dengan tanggal mulai.',
+            ]
+        );
 
         // Hapus gambar lama jika ada gambar baru
         if ($request->hasFile('image')) {

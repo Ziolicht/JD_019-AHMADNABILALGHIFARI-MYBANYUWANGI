@@ -79,6 +79,8 @@
                     <div class="absolute top-3 right-3">
                         @if ($event->ends_at < now())
                             <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">Event Selesai</span>
+                        @elseif ($event->starts_at > now())
+                            <span class="text-xs bg-yellow-100 text-yellow-600  px-2 py-1 rounded-full">Akan Datang</span>
                         @else
                             <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Sedang
                                 Berjalan</span>

@@ -46,7 +46,8 @@
 
                     </p>
 
-                    <a href="{{ route('events.calendar') }}" class="text-base font-medium text-indigo-600 hover:underline flex items-center gap-1">
+                    <a href="{{ route('events.calendar') }}"
+                        class="text-base font-medium text-indigo-600 hover:underline flex items-center gap-1">
                         {{ \Illuminate\Support\Carbon::parse($event->starts_at)->format('d M Y H:i') }}
                         @if ($event->ends_at)
                             - {{ \Illuminate\Support\Carbon::parse($event->ends_at)->format('d M Y H:i') }}
@@ -62,6 +63,11 @@
                 @if ($event->ends_at < now())
                     <span class="inline-flex items-center gap-1 text-sm bg-red-100 text-red-600 px-3 py-1 rounded-full">
                         <i data-lucide="x-circle" class="w-4 h-4"></i> Event Selesai
+                    </span>
+                @elseif ($event->starts_at > now())
+                    <span
+                        class="inline-flex items-center gap-1 text-sm bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full">
+                        <i data-lucide="clock" class="w-4 h-4"></i> Akan Datang
                     </span>
                 @else
                     <span class="inline-flex items-center gap-1 text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full">

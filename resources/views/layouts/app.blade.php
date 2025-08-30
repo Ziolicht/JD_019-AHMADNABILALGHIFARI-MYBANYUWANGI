@@ -24,81 +24,7 @@
         @yield('content')
     </main>
 
-    {{-- FOOTER --}}
-    <footer class="bg-gray-900 text-gray-300 mt-12">
-        <div class="max-w-7xl mx-auto px-6 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-
-                <!-- Brand & Deskripsi -->
-                <div>
-                    <h2 class="text-2xl font-bold text-white mb-4">MyBanyuwangi</h2>
-                    <p class="text-gray-400 text-sm mb-4">
-                        Temukan dan ikuti kegiatan menarik di sekitar kota Anda.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i
-                                class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i
-                                class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i
-                                class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Navigasi</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="/" class="hover:text-white transition">Beranda</a></li>
-                        <li><a href="/#events" class="hover:text-white transition">Event</a></li>
-                        <li><a href="/about" class="hover:text-white transition">Tentang Kami</a></li>
-                        <li><a href="/#footer" class="hover:text-white transition">Kontak</a></li>
-                    </ul>
-                </div>
-
-                <!-- Kategori -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Kategori</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition">Musik</a></li>
-                        <li><a href="#" class="hover:text-white transition">Olahraga</a></li>
-                        <li><a href="#" class="hover:text-white transition">Pameran</a></li>
-                        <li><a href="#" class="hover:text-white transition">Lainnya</a></li>
-                    </ul>
-                </div>
-
-                <!-- Newsletter -->
-                <div>
-                    <h3 class="text-white font-semibold mb-4">Berlangganan</h3>
-                    <p class="text-gray-400 text-sm mb-4">
-                        Dapatkan info event terbaru langsung ke email Anda.
-                    </p>
-                    <form action="#" method="POST" class="flex">
-                        <input type="email" placeholder="Email Anda"
-                            class="w-full px-3 py-2 rounded-l-md focus:outline-none text-gray-800">
-                        <button type="submit"
-                            class="bg-indigo-600 px-4 py-2 rounded-r-md text-white hover:bg-indigo-700">
-                            Kirim
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <hr class="my-6 border-gray-700">
-
-            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-                <p>&copy; {{ date('Y') }} MyBanyuwangi. Semua Hak Dilindungi.</p>
-                <div class="flex space-x-4 mt-2 md:mt-0">
-                    <a href="#" class="hover:text-white">Privasi</a>
-                    <a href="#" class="hover:text-white">Syarat & Ketentuan</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-
+    @include('layouts.footer')
 
     <script>
         lucide.createIcons();
@@ -147,8 +73,9 @@
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
                 glassNavbar.style.opacity = '0';
-            }, 1500);
+            }, 5000);
         });
+
 
         document.addEventListener('click', (e) => {
             const menus = ['mainMobileMenu', 'glassMobileMenu'];
@@ -202,6 +129,23 @@
                     document.getElementById('delete-form').submit();
                 }
             });
+        });
+
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const start = new Date(document.querySelector('[name="starts_at"]').value);
+            const end = new Date(document.querySelector('[name="ends_at"]').value);
+            const category = document.querySelector('[name="category"]').value.trim();
+
+            if (!category) {
+                alert('Kategori harus diisi!');
+                e.preventDefault();
+                return;
+            }
+
+            if (end && end < start) {
+                alert('Tanggal selesai tidak boleh lebih kecil dari tanggal mulai!');
+                e.preventDefault();
+            }
         });
     </script>
 </body>

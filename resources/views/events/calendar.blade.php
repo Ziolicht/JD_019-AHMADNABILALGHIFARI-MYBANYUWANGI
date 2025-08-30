@@ -51,10 +51,8 @@
                             if ($dayEvents->count() > 0) {
                                 if ($dayEvents->every(fn($event) => \Carbon\Carbon::parse($event->ends_at)->isPast())) {
                                     $statusClass = 'bg-gray-400'; // semua event selesai
-                                // } elseif (
-                                //     $dayEvents->some(fn($event) => \Carbon\Carbon::parse($event->starts_at)->isFuture())
-                                // ) {
-                                //     $statusClass = 'bg-yellow-500'; // ada yang belum dimulai
+                                } elseif ($dayEvents->every(fn($event) => \Carbon\Carbon::parse($event->starts_at)->isFuture())) {
+                                    $statusClass = 'bg-yellow-500'; // semua event belum mulai
                                 } else {
                                     $statusClass = 'bg-green-500'; // sedang berjalan
                                 }

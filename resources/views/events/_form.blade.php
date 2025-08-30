@@ -1,6 +1,17 @@
 @php $editing = isset($event); @endphp
 @csrf
 
+@if ($errors->any())
+    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-md">
+        <ul class="list-disc pl-5">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
 <div class="grid md:grid-cols-2 gap-4">
     <div>
         <label class="block text-sm mb-1">Judul</label>
@@ -15,9 +26,10 @@
     </div>
 
     <div>
-        <label class="block text-sm mb-1">Kategori (opsional)</label>
+        <label class="block text-sm mb-1">Kategori</label>
         <input type="text" name="category" value="{{ old('category', $event->category ?? '') }}"
-            placeholder="mis: budaya, olahraga" class="w-full border rounded-md px-3 py-2">
+            placeholder="mis: budaya, olahraga" class="w-full border rounded-md px-3 py-2" required>
+
     </div>
 
     <div>
@@ -58,12 +70,6 @@
         @if (isset($event) && $event->image_path)
             <img src="{{ asset('storage/' . $event->image_path) }}" class="mt-2 w-40 rounded-md">
         @endif
-    </div>
-
-    <div class="md:col-span-2">
-        <label class="inline-flex items-center gap-2">
-            <input type="checkbox" name="is_published" value="1" @checked(old('is_published', $event->is_published ?? true))> Terbitkan
-        </label>
     </div>
 </div>
 
