@@ -4,7 +4,7 @@
         <div class="flex justify-between items-center h-16">
 
             <!-- Logo -->
-            <div class="text-xl font-bold text-gray-800">MyBanyuwangi</div>
+            <a href="/" class="text-xl font-bold text-gray-800">MyBanyuwangi</a>
 
             <!-- Menu Utama -->
             <div class="hidden md:flex space-x-8">
@@ -77,7 +77,7 @@
         <div class="flex justify-between items-center h-16">
 
             <!-- Logo -->
-            <div class="text-xl font-bold text-gray-800">MyBanyuwangi</div>
+            <a href="/" class="text-xl font-bold text-gray-800">MyBanyuwangi</a>
 
             <!-- Menu Utama -->
             <div class="hidden md:flex space-x-8">
