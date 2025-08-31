@@ -115,22 +115,3 @@ php artisan serve
 1. **User biasa** dapat melihat event dan daftar event.
 2. **Admin** dapat login, lalu mengelola event di dashboard.
 3. Klik **+ Buat Event** untuk menambahkan event baru.
-
----
-
-## **Tampilan Utama**
-
-* **Kalender Event**: Menampilkan semua event per bulan.
-* **Halaman Event**: Menampilkan daftar event dengan filter kategori, status, dan pencarian.
-
----
-
-## **Kontribusi**
-
-Jika ingin berkontribusi, silakan buat pull request atau issue pada repository ini.
-
----
-
-## **Lisensi**
-
-Proyek ini menggunakan lisensi **MIT**.
