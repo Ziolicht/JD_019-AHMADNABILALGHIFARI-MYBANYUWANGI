@@ -86,15 +86,7 @@ DB_PASSWORD=
 php artisan key:generate
 php artisan migrate --seed
 ```
-
-### 5. **Jalankan Server**
-
-```bash
-php artisan serve
-```
-
----
-### 6. **Login Admin**
+### 5. **Login Admin**
 ```bash
 php artisan tinker
 $user = new App\Models\User();
@@ -104,6 +96,19 @@ $user->password = bcrypt('password');
 $user->is_admin = 1;
 $user->save();
 ```
+
+### 6. **storage link**
+
+```bash
+php artisan storage:link
+```
+### 7. **Jalankan Server**
+
+```bash
+php artisan serve
+```
+---
+
 
 ## **Cara Menggunakan**
 
