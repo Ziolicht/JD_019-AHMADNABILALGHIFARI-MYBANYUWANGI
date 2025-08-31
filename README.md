@@ -53,7 +53,7 @@ MyBanyuwangi adalah aplikasi berbasis **Laravel 12** yang digunakan untuk menamp
 ### 1. **Clone Repository**
 
 ```bash
-git clone https://github.com/username/mybanyuwangi.git
+git clone https://github.com/Ziolicht/JD_019-AHMADNABILALGHIFARI-MYBANYUWANGI
 cd mybanyuwangi
 ```
 
