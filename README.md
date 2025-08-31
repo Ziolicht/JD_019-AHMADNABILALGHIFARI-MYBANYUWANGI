@@ -97,15 +97,13 @@ php artisan serve
 ### 6. **Login Admin**
 ```bash
 php artisan tinker
-```
 $user = new App\Models\User();
 $user->name = 'Admin';
 $user->email = 'admin@test.com';
 $user->password = bcrypt('password');
 $user->is_admin = 1;
 $user->save();
-
-
+```
 
 ## **Cara Menggunakan**
 
