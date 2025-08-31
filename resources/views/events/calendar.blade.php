@@ -5,15 +5,21 @@
         <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center">Kalender Event</h1>
 
         <!-- Header Bulan -->
-        <div class="flex justify-between items-center mb-6">
-            <button class="flex items-center px-4 py-2 bg-white shadow rounded-lg hover:bg-gray-100 transition">
-                <i class="fa-solid fa-chevron-left mr-2 text-gray-500"></i> Sebelumnya
-            </button>
-            <h2 class="text-2xl font-bold text-indigo-600">{{ \Carbon\Carbon::now()->translatedFormat('F Y') }}</h2>
-            <button class="flex items-center px-4 py-2 bg-white shadow rounded-lg hover:bg-gray-100 transition">
-                Berikutnya <i class="fa-solid fa-chevron-right ml-2 text-gray-500"></i>
-            </button>
-        </div>
+<!-- Header Bulan -->
+<div class="flex justify-between items-center mb-6">
+    <a href="{{ route('events.calendar', ['year' => $prevMonth->year, 'month' => $prevMonth->month]) }}"
+        class="flex items-center px-4 py-2 bg-white shadow rounded-lg hover:bg-gray-100 transition">
+        <i class="fa-solid fa-chevron-left mr-2 text-gray-500"></i> Sebelumnya
+    </a>
+    <h2 class="text-2xl font-bold text-indigo-600">
+        {{ $current->translatedFormat('F Y') }}
+    </h2>
+    <a href="{{ route('events.calendar', ['year' => $nextMonth->year, 'month' => $nextMonth->month]) }}"
+        class="flex items-center px-4 py-2 bg-white shadow rounded-lg hover:bg-gray-100 transition">
+        Berikutnya <i class="fa-solid fa-chevron-right ml-2 text-gray-500"></i>
+    </a>
+</div>
+
 
         <!-- Kalender Grid -->
         <div class="bg-white rounded-2xl shadow-lg p-4">

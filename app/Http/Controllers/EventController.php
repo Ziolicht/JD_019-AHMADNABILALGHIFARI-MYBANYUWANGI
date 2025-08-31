@@ -237,18 +237,33 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'Event dihapus.');
     }
 
-    public function calendar()
-    {
-        $now = \Carbon\Carbon::now();
-        $startOfMonth = $now->copy()->startOfMonth()->startOfWeek();
-        $endOfMonth = $now->copy()->endOfMonth()->endOfWeek();
+public function calendar($year = null, $month = null)
+{
+    $now = Carbon::now();
 
-        $dates = collect();
-        for ($date = $startOfMonth; $date->lte($endOfMonth); $date->addDay()) {
-            $dates->push($date->copy());
-        }
+    // Jika tidak ada parameter, pakai bulan sekarang
+    $current = Carbon::createFromDate($year ?? $now->year, $month ?? $now->month, 1);
 
-        $events = Event::all(); // Atau filter berdasarkan bulan
-        return view('events.calendar', compact('dates', 'events'));
+    // Awal & akhir kalender (mulai dari Senin minggu pertama, sampai Minggu terakhir)
+    $startOfMonth = $current->copy()->startOfMonth()->startOfWeek(Carbon::MONDAY);
+    $endOfMonth = $current->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
+
+    // Generate daftar tanggal
+    $dates = collect();
+    for ($date = $startOfMonth->copy(); $date->lte($endOfMonth); $date->addDay()) {
+        $dates->push($date->copy());
     }
+
+    // Ambil semua event dalam rentang ini
+    $events = Event::whereBetween('starts_at', [$startOfMonth, $endOfMonth])
+        ->orWhereBetween('ends_at', [$startOfMonth, $endOfMonth])
+        ->get();
+
+    // Data untuk navigasi
+    $prevMonth = $current->copy()->subMonth();
+    $nextMonth = $current->copy()->addMonth();
+
+    return view('events.calendar', compact('dates', 'events', 'current', 'prevMonth', 'nextMonth'));
+}
+
 }

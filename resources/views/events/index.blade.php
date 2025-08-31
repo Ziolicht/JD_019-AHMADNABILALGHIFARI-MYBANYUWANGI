@@ -34,7 +34,7 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
 
         {{-- Form filter utama --}}
-        <form id="filterForm" method="GET" action="{{ route('events.index') }}#events"
+        <form id="filterForm" method="GET" action="{{ route('events.index') }}" 
             class="grid sm:grid-cols-[1fr,200px,200px,auto] gap-3 w-full md:w-auto">
 
             <!-- Search -->

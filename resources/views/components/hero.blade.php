@@ -18,7 +18,7 @@
                                     Lihat Event <i class="fa-solid fa-arrow-right-long ml-2"></i>
                                 </a>
 
-                                <form method="GET" action="{{ route('events.index') }}#events"
+                                <form method="GET" href="{{ route('events.index') }}#events"
                                     class="flex bg-white/90 backdrop-blur rounded-full overflow-hidden">
                                     <input name="search" placeholder="Cari event…"
                                         class="px-4 py-2 text-sm md:text-base outline-none bg-transparent text-gray-800 w-48 md:w-64" />

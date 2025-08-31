@@ -82,9 +82,9 @@
             <!-- Menu Utama -->
             <div class="hidden md:flex space-x-8">
                 <a href="/" class="text-gray-600 hover:text-gray-900">Beranda</a>
-                <a href="#events" class="text-gray-600 hover:text-gray-900">Event</a>
+                <a href="/#events" class="text-gray-600 hover:text-gray-900">Event</a>
                 <a href="/about" class="text-gray-600 hover:text-gray-900">Tentang</a>
-                <a href="/#footer" class="text-gray-600 hover:text-gray-900">Kontak</a>
+                <a href="#footer" class="text-gray-600 hover:text-gray-900">Kontak</a>
             </div>
 
             <!-- User Menu -->
